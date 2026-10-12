@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-a">
+  <title id="title-a">Orça+ — Concept A: Orbit Plus</title>
+  <g fill="#111827">
+    <!-- O Ring (Outer R=72, Inner r=44, center 108, 148) -->
+    <path fill-rule="evenodd" d="M 108 76 A 72 72 0 0 1 108 220 A 72 72 0 0 1 108 76 Z M 108 104 A 44 44 0 0 1 108 192 A 44 44 0 0 1 108 104 Z"/>
+    <!-- Plus Symbol (center 188, 68; arms 64x24, rx=6) -->
+    <path d="M 182 36 H 194 A 6 6 0 0 1 200 42 V 56 H 214 A 6 6 0 0 1 220 62 V 74 A 6 6 0 0 1 214 80 H 200 V 94 A 6 6 0 0 1 194 100 H 182 A 6 6 0 0 1 176 94 V 80 H 162 A 6 6 0 0 1 156 74 V 62 A 6 6 0 0 1 162 56 H 176 V 42 A 6 6 0 0 1 182 36 Z"/>
+  </g>
+</svg>

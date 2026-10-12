@@ -1,0 +1,76 @@
+// Orça + — Amostra de Código: Esquema de Banco de Dados (Prisma ORM)
+// Modelo relacional suportando multi-usuário, webhooks do Telegram e categorização
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String         @id @default(cuid())
+  email          String         @unique
+  name           String
+  passwordHash   String?
+  avatarUrl      String?
+  googleId       String?        @unique
+  telegramCode   String         @unique
+  telegramChatId String?
+  monthlyBudget  Float          @default(2500)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  chats          TelegramChat[]
+  transactions   Transaction[]
+  categories     Category[]
+}
+
+model TelegramChat {
+  id             String         @id @default(cuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatId         String
+  chatTitle      String?
+  chatType       String         @default("private")
+  isActive       Boolean        @default(true)
+  createdAt      DateTime       @default(now())
+
+  @@unique([userId, chatId])
+}
+
+model Transaction {
+  id             String         @id @default(cuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatId         String?
+  userName       String?
+  type           String         @default("EXPENSE") // EXPENSE ou INCOME
+  amount         Float
+  description    String
+  category       String         @default("Outros")
+  paymentMethod  String         @default("OUTRO")
+  date           DateTime       @default(now())
+  rawText        String?
+  itemsJson      String?
+  source         String         @default("TELEGRAM_TEXT")
+  createdAt      DateTime       @default(now())
+
+  @@index([userId, date])
+  @@index([userId, category])
+}
+
+model Category {
+  id             String         @id @default(cuid())
+  userId         String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  icon           String         @default("Tag")
+  color          String         @default("#10b981")
+  budget         Float          @default(0)
+  createdAt      DateTime       @default(now())
+
+  @@unique([userId, name])
+}
